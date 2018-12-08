@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="ch">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="设计模式," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="#代理模式####什么是代理模式？  函数A想触发函数C，有两种方法，一种是直接调用；另一种是引入B函数，在B函数中调用A触发C可能有点难懂。假设你很喜欢一个女孩子，你想给她送花，你不敢。所以你找了那个女孩子的朋友，去送花。这就是代理  显然，B在这个过程中，B可以代理了A的请求，也可以帮助C过滤掉不符合条件的请求。 我们把这个过滤的功能叫做保护代理。 而在A发送一个请求的时候，需要很多资源，那么">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式：代理模式">
+<meta property="og:url" content="http://yoursite.com/2018/10/24/设计模式：代理模式/index.html">
+<meta property="og:site_name" content="ParserDark">
+<meta property="og:description" content="#代理模式####什么是代理模式？  函数A想触发函数C，有两种方法，一种是直接调用；另一种是引入B函数，在B函数中调用A触发C可能有点难懂。假设你很喜欢一个女孩子，你想给她送花，你不敢。所以你找了那个女孩子的朋友，去送花。这就是代理  显然，B在这个过程中，B可以代理了A的请求，也可以帮助C过滤掉不符合条件的请求。 我们把这个过滤的功能叫做保护代理。 而在A发送一个请求的时候，需要很多资源，那么">
+<meta property="og:locale" content="ch">
+<meta property="og:updated_time" content="2018-10-24T15:11:30.182Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式：代理模式">
+<meta name="twitter:description" content="#代理模式####什么是代理模式？  函数A想触发函数C，有两种方法，一种是直接调用；另一种是引入B函数，在B函数中调用A触发C可能有点难懂。假设你很喜欢一个女孩子，你想给她送花，你不敢。所以你找了那个女孩子的朋友，去送花。这就是代理  显然，B在这个过程中，B可以代理了A的请求，也可以帮助C过滤掉不符合条件的请求。 我们把这个过滤的功能叫做保护代理。 而在A发送一个请求的时候，需要很多资源，那么">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/24/设计模式：代理模式/"/>
+
+
+
+
+
+  <title>设计模式：代理模式 | ParserDark</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="ch">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ParserDark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/24/设计模式：代理模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ParserDark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">设计模式：代理模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-24T23:11:32+08:00">
+                2018-10-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="代理模式"><a href="#代理模式" class="headerlink" title="#代理模式"></a>#代理模式</h2><p>####<em>什么是代理模式？</em></p>
+<blockquote>
+<p>函数A想触发函数C，有两种方法，一种是直接调用；另一种是引入B函数，在B函数中调用A触发C<br>可能有点难懂。<br>假设你很喜欢一个女孩子，你想给她送花，你不敢。<br>所以你找了那个女孩子的朋友，去送花。<br>这就是代理</p>
+</blockquote>
+<p>显然，B在这个过程中，B可以代理了A的请求，也可以帮助C过滤掉不符合条件的请求。</p>
+<p>我们把这个过滤的功能叫做<em>保护代理</em>。</p>
+<p>而在A发送一个请求的时候，需要很多资源，那么一次请求就会很珍贵，那么在B代理就要</p>
+<p>负责最优化这个请求，保证它成功。这叫作<em>虚拟代理</em>。</p>
+<p>####代理的意义</p>
+<ol>
+<li>在原有的函数引入新的功能。</li>
+<li>遵循单一职责原则（一个对象或者一个类，应该只有一个引起它变化的原因。聚合入参）</li>
+<li>代理和接口本体一致：<br> 1) 用户可以放心的去使用代理，反正他们都一样，能得到想要的结果<br> 2) 在任何使用本体的地方都可以替换成代理</li>
+</ol>
+<p>例子1: 实现loadding图<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">var myImg = (function () &#123;</span><br><span class="line">    var imgNode = document.createElement(&apos;img&apos;)</span><br><span class="line">    document.body.appendChild(imgNode)</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc: function (src) &#123;</span><br><span class="line">            imgNode.src = src</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var proxyImage = (function () &#123;</span><br><span class="line">    var img = new Image;</span><br><span class="line">    img.onload = function (src) &#123;</span><br><span class="line">        // 代理img</span><br><span class="line">        myImg.setSrc(this.src)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc: function (src) &#123;</span><br><span class="line">            myImg.setSrc(&apos;https://www.zastavki.com/pictures/originals/2013/Backgrounds__039813_.jpg&apos;)</span><br><span class="line">            img.src =src</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">proxyImage.setSrc(&quot;http://pic.accessify.com/thumbnails/320x245/d/dongman.hengyan.com.png&quot;)</span><br></pre></td></tr></table></figure></p>
+<p>例子2: 计算缓存代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 缓存代理： 对入参进行记录，并且在下一次触发的时候和上次入参进行比较</span><br><span class="line">// example</span><br><span class="line">var mult = function () &#123;</span><br><span class="line">    var a = 1</span><br><span class="line">    for (var i = 0, l = arguments.length; i &lt; l; i++) &#123;</span><br><span class="line">        a = a * arguments[i]</span><br><span class="line">    &#125;</span><br><span class="line">    return a</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var proxy = function (fn) &#123;</span><br><span class="line">    var cacha = &#123;&#125;</span><br><span class="line">    return function () &#123;</span><br><span class="line">        var args = Array.prototype.join.call(arguments, &apos;,&apos;)</span><br><span class="line">        if(args in cacha)&#123;</span><br><span class="line">            debugger</span><br><span class="line">            return cacha[args]</span><br><span class="line">        &#125;</span><br><span class="line">        debugger</span><br><span class="line">        return cacha[args] = fn.apply(this, arguments)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var proxyMult = proxy(mult)</span><br><span class="line"></span><br><span class="line">alert(proxyMult(5, 5, 5,5))</span><br><span class="line"></span><br><span class="line">alert(proxyMult(5, 5, 5,5))</span><br><span class="line"></span><br><span class="line">alert(proxyMult(1, 5, 5,5))</span><br></pre></td></tr></table></figure></p>
+<p>例子3: 防抖函数。<br>这个就不写了，防抖函数本身就是高阶函数代理模式。<br>例子4： ajax请求代理<br>说个实现吧</p>
+<ol>
+<li>缓存一个对象，这个对象包含请求入参和返回结果。</li>
+<li>在接下来每次请求之前做一个判断，如果入参与缓存中的某一个入参一样，那么就直接返回缓存中的数据。</li>
+<li>就是这么简单。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/18/设计模式：5.3策略模式应用（2）/" rel="next" title="策略模式应用：单规则表单验证">
+                <i class="fa fa-chevron-left"></i> 策略模式应用：单规则表单验证
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/25/设计模式：迭代器模式/" rel="prev" title="设计模式：迭代器模式">
+                设计模式：迭代器模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Mr.Wei</p>
+              <p class="site-description motion-element" itemprop="description">今天的风儿，甚是喧嚣啊。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-number">1.</span> <span class="nav-text">#代理模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Wei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

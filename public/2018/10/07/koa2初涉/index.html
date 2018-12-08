@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="ch">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="node koa2," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="##koa2——入门 基础名词解析1. require: node.js 中模块引入其他模块的方法。 2. koa2Obj.listen()函数。单参数： 监听端口号 3. context上下文: 一次对话的请求，响应。通过在请求和相应之间，进行操作，就可以控制返回给用户的东西。context.response.body就是要发送给用户的内容。 4. koa2Obj.use()： 在respons">
+<meta name="keywords" content="node koa2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="koa2——入门">
+<meta property="og:url" content="http://yoursite.com/2018/10/07/koa2初涉/index.html">
+<meta property="og:site_name" content="ParserDark">
+<meta property="og:description" content="##koa2——入门 基础名词解析1. require: node.js 中模块引入其他模块的方法。 2. koa2Obj.listen()函数。单参数： 监听端口号 3. context上下文: 一次对话的请求，响应。通过在请求和相应之间，进行操作，就可以控制返回给用户的东西。context.response.body就是要发送给用户的内容。 4. koa2Obj.use()： 在respons">
+<meta property="og:locale" content="ch">
+<meta property="og:updated_time" content="2018-10-07T14:19:30.305Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="koa2——入门">
+<meta name="twitter:description" content="##koa2——入门 基础名词解析1. require: node.js 中模块引入其他模块的方法。 2. koa2Obj.listen()函数。单参数： 监听端口号 3. context上下文: 一次对话的请求，响应。通过在请求和相应之间，进行操作，就可以控制返回给用户的东西。context.response.body就是要发送给用户的内容。 4. koa2Obj.use()： 在respons">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/07/koa2初涉/"/>
+
+
+
+
+
+  <title>koa2——入门 | ParserDark</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="ch">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ParserDark</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/07/koa2初涉/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ParserDark">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">koa2——入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-07T22:13:32+08:00">
+                2018-10-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>##koa2——入门</p>
+<h3 id="基础名词解析"><a href="#基础名词解析" class="headerlink" title="基础名词解析"></a>基础名词解析</h3><pre><code>1. require: node.js 中模块引入其他模块的方法。
+2. koa2Obj.listen()函数。单参数： 监听端口号
+3. context上下文: 一次对话的请求，响应。通过在请求和相应之间，进行操作，就可以控制返回给用户的东西。context.response.body就是要发送给用户的内容。
+4. koa2Obj.use()： 在response之中加载方法。参数： 对应的方法名
+5. Koa的默认返回类型是（text/plain）,如果想返回别的内容。可以使用ctx.request.accepts判断request的header中Content-Type中，客户端想返回什么类型的数据。ctx.response.type指定返回类型。ctx.response.body制定返回内容。
+6. 网页模板，返回给用户最常见的就是网页模板。（fs:node中的文件功能模块-读：createReadStream(&quot;fileName&quot;)）
+</code></pre><h3 id="深入——路由"><a href="#深入——路由" class="headerlink" title="深入——路由"></a>深入——路由</h3><blockquote>
+<p>原生实现路由<br>原理： 使用ctx.request.path获取用户访问路径，以此作为判断分支，决定返回什么。</p>
+</blockquote>
+<blockquote>
+<p>koa-route模块<br>koaObj.use(route.get(‘/‘, main))<br>koaObj.use(route.get(‘/user’, userInfo))</p>
+<p>静态资源处理——koa-static<br>serve(path.join(_dirname))</p>
+<p>重定向<br>ctx.response.redirect()方法可以发出一个302跳转，将用户导向另一个路由。</p>
+</blockquote>
+<h3 id="深入——中间件"><a href="#深入——中间件" class="headerlink" title="深入——中间件"></a>深入——中间件</h3><blockquote>
+<p>Logger<br>通过console.log 实时输出日志<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">console.log(`$&#123;Date.now()&#125; $&#123;ctx.request.method&#125; $&#123;ctx.request.url&#125;`);</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<hr>
+<p>中间件栈<br>多个中间件会形成一个栈结构（middle stack），以”先进后出”（first-in-last-out）的顺序执行。<br>1 最外层的中间件首先执行。<br>2 调用next函数，把执行权交给下一个中间件。<br>…<br>3 最内层的中间件最后执行。<br>4 执行结束后，把执行权交回上一层的中间件。<br>…<br>5 最外层的中间件收回执行权之后，执行next函数后面的代码。</p>
+</blockquote>
+<blockquote>
+<p>异步中间件——使用async和wait(之后再写这部分)<br>中间件的合成——koa-compose<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const middlewares = compose([logger, main]);</span><br><span class="line">app.use(middlewares);</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>###错误处理 ctx.throw()</p>
+<ol>
+<li>500</li>
+<li>404</li>
+<li>处理错误的中间件 try catch</li>
+<li>error 事件监听</li>
+</ol>
+<p>###Web App</p>
+<blockquote>
+<p>Cookies// 注意 这是服务端的cookie<br>?(服务端的cookie和客户端的cookie是分开的吗？我可以在客户端动服务端的cookie吗？)<br>ctx.cookies.set(‘view’, n);<br>ctx.cookies.get(‘view’)</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node-koa2/" rel="tag"># node koa2</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/07/node基础知识点/" rel="next" title="node基础知识点">
+                <i class="fa fa-chevron-left"></i> node基础知识点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/07/node应用部署/" rel="prev" title="node应用部署">
+                node应用部署 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Mr.Wei</p>
+              <p class="site-description motion-element" itemprop="description">今天的风儿，甚是喧嚣啊。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础名词解析"><span class="nav-number">1.</span> <span class="nav-text">基础名词解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深入——路由"><span class="nav-number">2.</span> <span class="nav-text">深入——路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深入——中间件"><span class="nav-number">3.</span> <span class="nav-text">深入——中间件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Wei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
